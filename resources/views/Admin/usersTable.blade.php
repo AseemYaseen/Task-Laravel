@@ -92,8 +92,8 @@ Users table
                 <th>Name</th>
                 <th>Email</th>
                 <th>Image</th>
+                <th>Edit</th>
                 <th>Delete</th>
-                <th>Make Admin</th>
               </tr>
             </thead>
             <tbody>
@@ -147,8 +147,9 @@ Users table
                 <th>#</th>
                 <th>Name</th>
                 <th>Email</th>
+                <th>Image</th>
+                <th>Edit</th>
                 <th>Delete</th>
-                <th>Remove Admin</th>
               </tr>
             </thead>
             <tbody>
@@ -161,6 +162,11 @@ Users table
                 <td>{{$s++}}</td>
                 <td>{{$User->name}}</td>
                 <td>{{$User->email}}</td>
+                @if ($User->image)
+                <td class="immg"><img class="ImgSty" src="{{ asset('storage/image/' . $User->image) }}" alt="Image"></td>
+            @else
+                <td>No Image</td>
+            @endif
                 <td><a href="{{route('users.edit',$User->id)}}" type="button" class="Editb">Edit</a></td>
                 <td><form class="butnMargin" onclick="return confirm('Are you sure you want to delete this Admin ?');" action="{{route('users.destroy', $User->id)}}" method="post">
                   @method('DELETE')
