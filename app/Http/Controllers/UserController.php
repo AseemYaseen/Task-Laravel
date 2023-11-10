@@ -91,7 +91,6 @@ class userController extends Controller
      */
     public function update(Request $request, $id)
     {
-
         $request->validate([
             'name' => 'required',
             'email' => 'required|email',
@@ -103,21 +102,24 @@ class userController extends Controller
         $UserEdit = User::findOrFail($id);
         $UserEdit->name = $request->input('name');
         $UserEdit->email = $request->input('email');
-        $photoName = $request->file('image')->getClientOriginalName();
-        $request->file('image')->storeAs('public/image', $photoName);
-        $UserEdit->image = $photoName;
+    
         
-        if ($request->filled('password')) {
-            $UserEdit->password = Hash::make($request->input('password')); 
+        if ($request->hasFile('image') && $request->file('image')->isValid()) {
+            $photoName = $request->file('image')->getClientOriginalName();
+            $request->file('image')->storeAs('public/image', $photoName);
+            $UserEdit->image = $photoName;
         }
-        
+    
+        if ($request->filled('password')) {
+            $UserEdit->password = Hash::make($request->input('password'));
+        }
+    
         $UserEdit->is_admin = ($request->input('role') === 'admin') ? 1 : 0;
     
         $UserEdit->save();
     
         return redirect()->route('users.index');
     }
-
     /**
      * Remove the specified resource from storage.
      *
