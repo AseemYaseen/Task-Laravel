@@ -29,6 +29,7 @@ Route::middleware('auth')->group(function () {
 });
 Route::group(['middleware' => 'Admin'], function () {
     Route::resource('/users', UserController::class);
+    // Route::delete('/users/destroyadmin/{id}', [userController::class, 'destroyadmin'])->name('users.destroyadmin');
 });
 
 require __DIR__.'/auth.php';

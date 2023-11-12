@@ -36,12 +36,18 @@ class userController extends Controller
      */
     public function store(Request $request)
     {
-        $newUser = New User();
-        
-        $newUser = New User();
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|string|min:6',
+            'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048', // Adjust the image validation rules as needed
+        ]);
+    
+        $newUser = new User();
         $newUser->name = $request->name;
         $newUser->email = $request->email;
-        $newUser->password = $request->password;
+        $newUser->password = Hash::make($request->input('password'));
+    
         if ($request->hasFile('image') && $request->file('image')->isValid()) {
             // If an image file is provided, store and save it
             $photoName = $request->file('image')->getClientOriginalName();
@@ -50,9 +56,9 @@ class userController extends Controller
         }
     
         $newUser->save();
+    
         return redirect()->route('users.index');
     }
-
     /**
      * Display the specified resource.
      *
@@ -128,7 +134,13 @@ class userController extends Controller
      */
     public function destroy($id)
     {
-        User::destroy($id);
+        $user = User::findOrFail($id);
+        if ($user->is_admin) {
+            $user->delete();
+        }else{
+             User::destroy($id);
+        }
+       
         return redirect()->route('users.index');
 
 
@@ -136,5 +148,17 @@ class userController extends Controller
 
     }
 
+    public function destroyadmin($id)
+    {
+        $user = User::findOrFail($id);
+    
+        if ($user->is_admin) {
+            $user->delete();
+        } else {
+            
+        }
+    
+        return redirect()->route('users.index');
+    }
     
 }

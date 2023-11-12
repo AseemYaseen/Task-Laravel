@@ -10,7 +10,7 @@ class DatabaseSeeder extends Seeder
 {
     public function run()
     {
-        // Create the first user (non-admin)
+        // This user is not Admin
         User::factory()->create([
             'name' => 'Aseem',
             'email' => 'aseem@gmail.com',
@@ -18,7 +18,7 @@ class DatabaseSeeder extends Seeder
             'is_admin' => 0,
         ]);
 
-        // Create the second user (admin)
+        // This user is the Admin 
         User::factory()->create([
             'name' => 'Najeem',
             'email' => 'najeem@gmail.com',

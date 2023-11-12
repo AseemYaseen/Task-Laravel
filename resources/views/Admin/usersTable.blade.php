@@ -110,9 +110,10 @@ Users table
             @endif
                 <td><a href="{{route('users.edit',$User->id)}}" type="button" class="Editb">Edit</a></td>
                 <td><form class="butnMargin" onclick="return confirm('Are you sure you want to delete this user ?');" action="{{route('users.destroy', $User->id)}}" method="post">
-                    @method('DELETE')
-                    @csrf
-                    <button type="submit" class="DeleteB">Delete</button>
+                  @method('DELETE')
+                  @csrf
+                  <button type="submit" class="DeleteB">Delete</button>
+                 </form></td>
                    {{-- </form></td>
                    <td><form class="butnMargin" action="{{route('users.update2', $User->id)}}" method="post">
                     @method('PUT')
@@ -168,11 +169,19 @@ Users table
                 <td>No Image</td>
             @endif
                 <td><a href="{{route('users.edit',$User->id)}}" type="button" class="Editb">Edit</a></td>
+                @if($User->id !== Auth::id())
                 <td><form class="butnMargin" onclick="return confirm('Are you sure you want to delete this Admin ?');" action="{{route('users.destroy', $User->id)}}" method="post">
                   @method('DELETE')
                   @csrf
                   <button type="submit"  class="DeleteB">Delete</button>
                  </form></td>
+                 @else
+                 <td><form class="butnMargin" onclick="return confirm(' ARE YOU SURE YOU WANT TO DELETE YOUR SELF(You will be signed out)');" action="{{route('users.destroy', $User->id)}}" method="post">
+                  @method('DELETE')
+                  @csrf
+                  <button type="submit"  class="DeleteB">Delete</button>
+                 </form></td>
+                 @endif
                  {{-- <td><form class="butnMargin" action="{{route('users.update', $User->id)}}" method="post">
                   @method('PUT')
                   @csrf
