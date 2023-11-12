@@ -147,18 +147,5 @@ class userController extends Controller
         // Or i can make a soft delete 
 
     }
-
-    public function destroyadmin($id)
-    {
-        $user = User::findOrFail($id);
-    
-        if ($user->is_admin) {
-            $user->delete();
-        } else {
-            
-        }
-    
-        return redirect()->route('users.index');
-    }
     
 }
